@@ -1,0 +1,8 @@
+1566892579621	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.MWIZGroAFFp2"
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by erek.)
+1566892618980	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ylYu4he3tzUP"
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by erek.)
+1566892641265	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.wX64AHNKLSeD"
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by erek.)
+1566892753097	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.Wrxh46lQpojw"
+Running Firefox as root in a regular user's session is not supported.  ($HOME is /home/erek which is owned by erek.)
