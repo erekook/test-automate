@@ -29,20 +29,20 @@ articleWebElementList = driver.find_elements_by_class_name("article")
 #print(content.get_attribute('innerHTML'))
 
 sqlArgs = []
-sql = 'insert into article(author,content) values("%s","%s")'
 
 # 循环文章列表
 for article in articleWebElementList:
     author = article.find_element_by_tag_name("h2").text
     content = article.find_element_by_tag_name("span").text
     sqlArg = [author, content]
-    sqlArgs.append(sql)
+    sqlArgs.append(sqlArg)
     #print("author:\n",author)
     #print("content:\n", content)
 
+sql = 'insert into article(author,content) values("%s","%s")'
 # 保存到数据库
 dbHandle = DataBaseHandle('192.168.10.202', 'root', 'root', 'selenium', 3306)
-dbHandle.insertManyDB('insert into article(author,content) values("%s","%s")', sqlArgs) 
+dbHandle.insertManyDB(sql, sqlArgs) 
 print('保存成功')
 dbHandle.closeDB()
 
