@@ -22,7 +22,7 @@ print(driver.title)
 inputElement = driver.find_element_by_class_name("s_ipt")
 
 # type in the search
-inputElement.send_keys("123")
+inputElement.send_keys("hello")
 
 # submit the form
 inputElement.submit()
@@ -34,6 +34,7 @@ try:
     
     # you can see the  "hello" title
     print(driver.title)
+    driver.get('https://www.zhihu.com')
 except TimeoutException:
     print("timeout sorry!")
 finally:

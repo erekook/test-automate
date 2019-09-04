@@ -82,8 +82,10 @@ class DataBaseHandle(object):
     def closeDB(self):
         self.db.close()
 
-#if __name__ == '__main__':
-#
-#    dbHandle = DataBaseHandle('192.168.10.202', 'root', 'root', 'selenium', 3306)
+if __name__ == '__main__':
+
+    dbHandle = DataBaseHandle('192.168.10.202', 'root', 'root', 'selenium', 3306)
 #    sqlArgs = [['author001','content01'], ['author002','content02']]
-#    dbHandle.insertManyDB('insert into article(author,content) values("%s","%s")', sqlArgs)
+#   dbHandle.insertManyDB('insert into article(author,content) values("%s","%s")', sqlArgs)
+    results = dbHandle.selectDB('select * from article')
+    print(results)
