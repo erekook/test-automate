@@ -3,7 +3,7 @@
 import pymysql
 
 # connect the db
-conn = pymysql.connect(host="192.168.10.202", user="root", password="root", database="selenium",charset="utf8")
+conn = pymysql.connect(host="192.168.10.200", user="root", password="root", database="selenium",charset="utf8")
 
 # 得到一个可以执行sql语句的光标对象
 cursor = conn.cursor() # 执行完毕返回的结果集默认以元组显示
@@ -19,8 +19,16 @@ content text NOT NULL
 )ENGINE=innodb DEFAULT CHARSET=utf8;
 """
 
+sql1 = """
+CREATE TABLE girl (
+id INT auto_increment PRIMARY KEY,
+image char(200) NOT NULL,
+url char(200) NOT NULL,
+download_flag INT NOT NULL
+)ENGINE=innodb DEFAULT CHARSET=utf8;
+"""
 # 执行sql
-cursor.execute(sql)
+cursor.execute(sql1)
 
 
 # 关闭光标对象

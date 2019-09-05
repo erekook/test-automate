@@ -8,6 +8,12 @@ import sys
 sys.path.append('../pymysql-test/')
 from DataBaseHandle import *
 
+'''
+    author: longjietan
+    update time: 2019.9.4
+    爬取糗事百科的作者和内容，保存到mysql
+    
+'''
 class QsbkSpider(object):
     
 

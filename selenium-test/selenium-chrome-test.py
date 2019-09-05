@@ -1,8 +1,11 @@
+#!/user/bin/python
+# -*- coding: UTF-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 
 # 解决在root下无法打开chrome的问题
 chrome_options = webdriver.ChromeOptions()
@@ -27,17 +30,18 @@ inputElement.send_keys("hello")
 # submit the form
 inputElement.submit()
 
-
-try:
-    # we have to wait the page to refresh, the last thing that seems to be updated is the title
-    WebDriverWait(driver, 5).until(EC.title_contains("hello"))
-    
-    # you can see the  "hello" title
-    print(driver.title)
-    driver.get('https://www.zhihu.com')
-except TimeoutException:
-    print("timeout sorry!")
-finally:
-    # close the browser
-    # driver.quit()
-    print("over")
+time.sleep(2)
+driver.execute_script("window.scrollTo(0,2000)")
+#try:
+#    # we have to wait the page to refresh, the last thing that seems to be updated is the title
+#    WebDriverWait(driver, 5).until(EC.title_contains("hello"))
+#    
+#    # you can see the  "hello" title
+#    print(driver.title)
+#    #driver.get('https://www.zhihu.com')
+#except TimeoutException:
+#    print("timeout sorry!")
+#finally:
+#    # close the browser
+#    # driver.quit()
+#    print("over")
