@@ -43,7 +43,7 @@ class WeiboSpider(object):
         self.images = []
         self.dir_path = '/home/erek/Pictures/weibo'
         # 爬取总页数
-        self.page = 1
+        self.page = 50
         # 当前页数
         self.current = 0
         self.my_headers = [
@@ -64,57 +64,62 @@ class WeiboSpider(object):
 
     # 爬取内容 
     def parse(self):
-        #self.driver.get('https://www.aqk6.com/tupian/59946.html')
-        self.current += 1
-        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "videopic")))
-        self.driver.execute_script("window.stop() ? window.stop() : document.execCommand('Stop')")
-        print('begin to parse')
-        # 滚动滚动条
-        self.driver.execute_script("window.scrollBy(0,2500)")
-        for i in range(20):
-            self.driver.execute_script("window.scrollBy(0,1000)")
-            print('scroll time:', i)
-            time.sleep(3)
-        
-        # WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,"videopic")))
-        # 图片列表
-        picClassList = self.driver.find_elements_by_class_name("videopic")
-        next_page = self.driver.find_element_by_xpath("//*[@id='main-container']/div[5]/div[2]/a")
-        print('fetching page:number %s | %s' % (self.current, self.driver.current_url))
-        print('get the img list')
-        for pic in picClassList:
-            # url = pic.find_element(By.TAG_NAME, "img").get_attribute("src")
-            url = pic.get_attribute("src")
-            if url.find("default") == 0:
-                continue
-            image = [url, self.driver.current_url, next_page.text, '0']
-            print(pic.get_attribute("src"))
-            # print(pic.get_attribute("innerHTML"))
-            self.images.append(image)
-
-        # 进入下一页,跳转到新页面
-        next_page.click()       
-        time.sleep(2)
-        # 关闭当前页面
-        self.driver.close()
-        # 获取当前全部页面句柄
-        all_handles = self.driver.window_handles
-        # 跳转到新页面的句柄
-        self.driver.switch_to.window(all_handles[0])
-        # 获取当前页面句柄
-        #current_handle = self.driver.current_window_handle
-        if self.current < self.page:
-            self.parse()
-        else:
-            print(self.images)
+        try:
+            self.current += 1
+            self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "videopic")))
+            self.driver.execute_script("window.stop() ? window.stop() : document.execCommand('Stop')")
+            print('begin to parse')
+            # 滚动滚动条
+            self.driver.execute_script("window.scrollBy(0,2500)")
+            for i in range(20):
+                self.driver.execute_script("window.scrollBy(0,1000)")
+                print('scroll time:', i)
+                time.sleep(3)
+            
+            # WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,"videopic")))
+            # 图片列表
+            picClassList = self.driver.find_elements_by_class_name("videopic")
+            next_page = self.driver.find_element_by_xpath("//*[@id='main-container']/div[5]/div[2]/a")
+            print('fetching page:number %s | %s' % (self.current, self.driver.current_url))
+            print('get the img list')
+            for pic in picClassList:
+                # url = pic.find_element(By.TAG_NAME, "img").get_attribute("src")
+                url = pic.get_attribute("src")
+                # string.find(str,beg=0,end=len(string)) 检测str是否包含在string中，没有则返回-1
+                if url.find("default") > -1:
+                    continue
+                image = [url, self.driver.current_url, next_page.text, 0]
+                print(pic.get_attribute("src"))
+                # print(pic.get_attribute("innerHTML"))
+                self.images.append(image)
+    
             print('save to db')
             self.saveToDB()     
-
+            self.images = []
+    
+            # 进入下一页,跳转到新页面
+            next_page.click()       
+            time.sleep(2)
+            # 关闭当前页面
+            self.driver.close()
+            # 获取当前全部页面句柄
+            all_handles = self.driver.window_handles
+            # 跳转到新页面的句柄
+            self.driver.switch_to.window(all_handles[0])
+            # 获取当前页面句柄
+            #current_handle = self.driver.current_window_handle
+            if self.current < self.page:
+                self.parse()
+            else:
+                print('spider is done')
+            
+        except TimeoutException:
+            print('访问超时, spider is done')
 
 
     # 保存到数据库
     def saveToDB(self):
-        sql = 'insert into girl(image,url,title,download_flag) values("%s","%s","%s","%s")'
+        sql = 'insert into girl(image,url,title,download_flag) values(%s,%s,%s,%s)'
         dbHandle = DataBaseHandle('192.168.10.200', 'root', 'root', 'selenium', 3306)
         dbHandle.insertManyDB(sql, self.images) 
         dbHandle.closeDB()
@@ -142,8 +147,7 @@ class WeiboSpider(object):
 if __name__ == '__main__':
     spider = WeiboSpider()
     # fetching a page
-    #spider.driver.get('https://weibo.com/?category=10007')
-    spider.driver.get('https://www.aqk6.com/tupian/59947.html')
+    spider.driver.get('https://www.aph2.com/tupian/60152.html')
     print("start the spider")
     spider.parse()
     #spider.saveImages()

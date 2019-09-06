@@ -1,5 +1,10 @@
 # test-automate
-some test about selenium
+some tests about selenium
+
+## env
+python3.7.3
+selenium3.141.0
+pymysql0.9.3
 
 ## install the python
 ### linux(ubuntu)
