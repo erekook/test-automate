@@ -22,7 +22,7 @@ class DataBaseHandle(object):
             # exec sql
             self.cursor.execute(sql)
             self.db.commit()
-       except:
+       except Exception as e:
             self.db.rollback()
        finally:
             self.cursor.close()
@@ -34,7 +34,8 @@ class DataBaseHandle(object):
             # exec sql
             self.cursor.executemany(sql, args)
             self.db.commit()
-       except:
+       except Exception as e:
+            print(e)
             self.db.rollback()
        finally:
             self.cursor.close()
@@ -46,7 +47,7 @@ class DataBaseHandle(object):
             # exec sql
             self.cursor.execute(sql)
             self.db.commit()
-       except:
+       except Exception as e:
             self.db.rollback()
        finally:
             self.cursor.close()
@@ -58,7 +59,7 @@ class DataBaseHandle(object):
             # exec sql
             self.cursor.execute(sql)
             self.db.commit()
-       except:
+       except Exception as e:
             self.db.rollback()
        finally:
             self.cursor.close()
@@ -70,10 +71,10 @@ class DataBaseHandle(object):
             # exec sql
             self.cursor.execute(sql)
             data = self.cursor.fetchall() # 返回所有记录列表
-            print('results:', data)
-
+            return data
             # 遍历结果
-       except:
+       except Exception as e:
+            self.db.rollback()
             print('Error: unable to fetch data')
        finally:
             self.cursor.close()
@@ -84,8 +85,8 @@ class DataBaseHandle(object):
 
 if __name__ == '__main__':
 
-    dbHandle = DataBaseHandle('192.168.10.202', 'root', 'root', 'selenium', 3306)
-#    sqlArgs = [['author001','content01'], ['author002','content02']]
-#   dbHandle.insertManyDB('insert into article(author,content) values("%s","%s")', sqlArgs)
-    results = dbHandle.selectDB('select * from article')
-    print(results)
+    dbHandle = DataBaseHandle('192.168.10.200', 'root', 'root', 'selenium', 3306)
+    sqlArgs = [['author001','content01',0,'title01'], ['author002','content02',0,'title02']]
+    dbHandle.insertManyDB('insert into girl(image,url,download_flag,title) values(%s,%s,%s,%s)', sqlArgs)
+    #results = dbHandle.selectDB('select * from article')
+    #print(results)
